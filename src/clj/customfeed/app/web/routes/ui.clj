@@ -2,7 +2,7 @@
   (:require
    [customfeed.app.web.middleware.exception :as exception]
    [customfeed.app.web.middleware.formats :as formats]
-   [customfeed.app.web.views.hello :as hello]
+   [customfeed.app.web.views.home :as home]
    [integrant.core :as ig]
    [reitit.ring.middleware.muuntaja :as muuntaja]
    [reitit.ring.middleware.parameters :as parameters]))
@@ -26,4 +26,4 @@
   [_ {:keys [base-path]
       :or   {base-path ""}
       :as   opts}]
-  [base-path (route-data opts) (hello/ui-routes base-path)])
+  [base-path (route-data opts) (home/ui-routes base-path)])

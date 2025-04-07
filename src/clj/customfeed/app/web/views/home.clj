@@ -1,4 +1,4 @@
-(ns customfeed.app.web.views.hello
+(ns customfeed.app.web.views.home
     (:require
       [simpleui.core :as simpleui :refer [defcomponent]]
       [customfeed.app.web.htmx :refer [page-htmx]]))
@@ -11,6 +11,7 @@
    base-path
    (fn [req]
      (page-htmx
+      {:css ["/output.css"]}
       [:label {:style "margin-right: 10px"}
        "What is your name?"]
       [:input {:type "text"

@@ -3,6 +3,9 @@
     [clojure.tools.logging :as log]
     [customfeed.app.dev-middleware :refer [wrap-dev]]))
 
+(def dev? true)
+(def prod? false)
+
 (def defaults
   {:init       (fn []
                  (log/info "\n-=[app starting using the development or test profile]=-"))

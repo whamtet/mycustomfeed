@@ -1,6 +1,9 @@
 (ns customfeed.app.env
   (:require [clojure.tools.logging :as log]))
 
+(def dev? false)
+(def prod? true)
+
 (def defaults
   {:init       (fn []
                  (log/info "\n-=[app starting]=-"))
