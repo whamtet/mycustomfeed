@@ -10,7 +10,8 @@
    [customfeed.app.web.handler]
 
     ;; Routes
-   [customfeed.app.web.routes.api])
+   [customfeed.app.web.routes.api] 
+    [customfeed.app.web.routes.ui])
   (:gen-class))
 
 ;; log uncaught exceptions in threads
