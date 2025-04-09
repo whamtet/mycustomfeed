@@ -9,6 +9,7 @@
     "tailwind": "tailwindcss -m -i tailwind/input.css -o resources/public/output.css",
     "tailwind:watch": "tailwindcss -i tailwind/input.css -o resources/public/output.css --watch",
     "extension": "BASE_URL=https://customfeed.simpleui.io node extension/build.js",
-    "extension:watch": "BASE_URL=http://localhost:3002 node extension/build.js --watch"
+    "extension:watch": "BASE_URL=http://localhost:3002 node extension/build.js --watch",
+    "extension:tailwind": "tailwindcss -c tailwind-static.config.js -i tailwind/input.css -o extension/dist/output.css --watch"
   }
 }

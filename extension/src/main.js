@@ -1,4 +1,10 @@
 import { GET } from "./client.js";
 
-console.log(GET('/api/button'));
+(async () => {
+    const response = await GET('/api/button');
+    const html = await response.text();
 
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    document.body.append(div);
+})()
