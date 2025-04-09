@@ -7,4 +7,9 @@ import { GET } from "./client.js";
     const div = document.createElement('div');
     div.innerHTML = html;
     document.body.append(div);
+
+    div.addEventListener('click', function () {
+        console.log("clicked");
+        chrome.runtime.sendMessage({ type: 'open_side_panel' });
+    });
 })()
