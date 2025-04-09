@@ -13,7 +13,7 @@ for (const k in process.env) {
 
 const options = {
   entryPoints: ['extension/src/main.js'],
-  outfile: 'extension/content-script.js',
+  outfile: 'extension/dist/content-script.js',
   bundle: true,
   minify: !watch,
   define,
