@@ -1,5 +1,5 @@
 const BASE_URL = process.env.BASE_URL;
 
-export function getMessage() {
-  return BASE_URL + ' xx2';
+export function GET(url) {
+  return fetch(BASE_URL + url);
 }

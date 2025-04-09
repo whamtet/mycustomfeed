@@ -1,5 +1,7 @@
 (ns customfeed.app.web.routes.api
   (:require
+    [clojure.java.io :as io]
+    [customfeed.app.util :refer [defm-dev]]
     [customfeed.app.web.controllers.health :as health]
     [customfeed.app.web.middleware.exception :as exception]
     [customfeed.app.web.middleware.formats :as formats]
@@ -9,6 +11,22 @@
     [reitit.ring.middleware.muuntaja :as muuntaja]
     [reitit.ring.middleware.parameters :as parameters]
     [reitit.swagger :as swagger]))
+
+(def cors-headers
+  {"Access-Control-Allow-Origin" "*"
+   "Access-Control-Allow-Methods" "POST, GET, OPTIONS, DELETE"
+   "Access-Control-Allow-Headers" "*"
+   "Access-Control-Expose-Headers" "*"})
+
+(defn wrap-cors [handler]
+  (fn [req]
+    (if (-> req :request-method (= :options))
+      {:status 200
+       :headers cors-headers
+       :body ""}
+      (-> req
+          handler
+          (update :headers merge cors-headers)))))
 
 (def route-data
   {:coercion   malli/coercion
@@ -28,8 +46,12 @@
                 coercion/coerce-response-middleware
                   ;; coercing request parameters
                 coercion/coerce-request-middleware
+                wrap-cors
                   ;; exception handling
                 exception/wrap-exception]})
+
+(defm-dev button []
+  (-> "public-api/button.html" io/resource slurp))
 
 ;; Routes
 (defn api-routes [_opts]
@@ -37,6 +59,11 @@
     {:get {:no-doc  true
            :swagger {:info {:title "customfeed.app API"}}
            :handler (swagger/create-swagger-handler)}}]
+   ["/button"
+    (fn [req]
+      {:status 200
+       :headers {}
+       :body (button)})]
    ["/health"
     {:get health/healthcheck!}]])
 

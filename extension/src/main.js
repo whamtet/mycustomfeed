@@ -1,4 +1,4 @@
-import { getMessage } from "./client.js";
+import { GET } from "./client.js";
 
-console.log(getMessage());
+console.log(GET('/api/button'));
 
