@@ -1,5 +1,9 @@
 import { GET } from "./client.js";
 
+const clickButton = () => {
+    chrome.runtime.sendMessage({ type: 'open_side_panel' })
+}
+
 (async () => {
     const response = await GET('/api/button');
     const html = await response.text();
@@ -8,5 +12,5 @@ import { GET } from "./client.js";
     div.innerHTML = html;
     document.body.append(div);
 
-    div.addEventListener('click', () => chrome.runtime.sendMessage({ type: 'open_side_panel' }));
+    div.addEventListener('click', clickButton);
 })()
