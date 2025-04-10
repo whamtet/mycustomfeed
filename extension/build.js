@@ -11,15 +11,18 @@ for (const k in process.env) {
   define[`process.env.${k}`] = JSON.stringify(process.env[k]);
 }
 
-const options = {
-  entryPoints: ['extension/src/main.js'],
-  outfile: 'extension/dist/content-script.js',
+const buildEntry = (entrypoint, outfile) => build({
+  entryPoints: ['extension/' + entrypoint],
+  outfile: 'extension/' + outfile,
   bundle: true,
   minify: !watch,
-  define,
-};
+  define
+});
 
-const buildOnce = () => build(options);
+const buildOnce = () => {
+  buildEntry('src/main.js', 'dist/content-script.js');
+  buildEntry('src/sidepanel.js', 'dist/sidepanel.js');
+}
 
 buildOnce();
 

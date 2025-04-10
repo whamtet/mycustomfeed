@@ -5,10 +5,8 @@
     <link rel="stylesheet" href="http://localhost:3002/output.css">
 </head>
 <body>
-<div hx-get="http://localhost:3002/extension/login?count=0" hx-trigger="load" />
+<div id="container" />
 <script src="https://unpkg.com/htmx.org@1.9.12"></script>
-<script>
-    htmx.config.defaultSwapStyle = 'outerHTML';
-</script>
+<script src="sidepanel.js"></script>
 </body>
 </html>
