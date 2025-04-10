@@ -8,8 +8,5 @@ import { GET } from "./client.js";
     div.innerHTML = html;
     document.body.append(div);
 
-    div.addEventListener('click', function () {
-        console.log("clicked");
-        chrome.runtime.sendMessage({ type: 'open_side_panel' });
-    });
+    div.addEventListener('click', () => chrome.runtime.sendMessage({ type: 'open_side_panel' }));
 })()

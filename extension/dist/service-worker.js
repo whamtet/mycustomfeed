@@ -10,7 +10,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
     })();
 });
 
-const HOST = 'www.google.com';
+const HOST = 'www.linkedin.com';
 
 chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
     const url = new URL(tab.url);
