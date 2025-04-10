@@ -24,7 +24,7 @@
 
 (defcomponent ^:endpoint login [req ^:long count]
   [:div {:hx-get "login"
-         :hx-vals (inc count)}
+         :hx-vals {:count (inc count)}}
    "Count " count])
 
 (defmacro extension [opts]

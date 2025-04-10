@@ -23,7 +23,7 @@
            io.github.kit-clj/kit-core {:mvn/version "1.0.9"}
            io.github.kit-clj/kit-undertow {:mvn/version "1.0.8"}
            simpleui/simpleui {:git/url "https://github.com/whamtet/simpleui",
-                              :git/sha "ae0b2a16c6ed10929650312f57b438cab4925e93"}}
+                              :git/sha "8c34b9c5997a106f518c54f3f56477a79c4191f2"}}
  :aliases {:build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.6"}}
                    :ns-default build}
 
