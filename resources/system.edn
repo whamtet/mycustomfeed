@@ -45,4 +45,7 @@
  {:routes #ig/ref :router/routes
   :env #ig/ref :system/env}
  :reitit.routes/ui {:base-path "",
-                    :env #ig/ref :system/env}}
+                    :env #ig/ref :system/env}
+ :reitit.routes/extension
+ {:env #ig/ref :system/env}
+ }

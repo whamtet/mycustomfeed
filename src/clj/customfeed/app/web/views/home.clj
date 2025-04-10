@@ -1,14 +1,15 @@
 (ns customfeed.app.web.views.home
     (:require
-      [simpleui.core :as simpleui :refer [defcomponent]]
-      [customfeed.app.web.htmx :refer [page-htmx]]))
+      [customfeed.app.env :refer [prod?]]
+      [customfeed.app.web.htmx :refer [page-htmx]]
+      [simpleui.core :as simpleui :refer [defcomponent]]))
 
 (defcomponent ^:endpoint hello [req my-name]
   [:div#hello "Hello " my-name])
 
-(defn ui-routes [base-path]
+(defn home [opts]
   (simpleui/make-routes
-   base-path
+   ""
    (fn [req]
      (page-htmx
       {:css ["/output.css"]}
@@ -20,3 +21,14 @@
                :hx-target "#hello"
                :hx-swap "outerHTML"}]
       (hello req "")))))
+
+(defcomponent ^:endpoint login [req ^:long count]
+  [:div {:hx-get "login"
+         :hx-vals (inc count)}
+   "Count " count])
+
+(defmacro extension [opts]
+  `(simpleui/make-routes-simple
+    ~(if prod? "https://mycustomfeed.simpleui.io/extension/" "http://localhost:3002/extension/")
+    [~opts]
+    login))

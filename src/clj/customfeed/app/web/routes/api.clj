@@ -3,6 +3,7 @@
     [clojure.java.io :as io]
     [customfeed.app.util :refer [defm-dev]]
     [customfeed.app.web.controllers.health :as health]
+    [customfeed.app.web.middleware.cors :as cors]
     [customfeed.app.web.middleware.exception :as exception]
     [customfeed.app.web.middleware.formats :as formats]
     [integrant.core :as ig]
@@ -11,22 +12,6 @@
     [reitit.ring.middleware.muuntaja :as muuntaja]
     [reitit.ring.middleware.parameters :as parameters]
     [reitit.swagger :as swagger]))
-
-(def cors-headers
-  {"Access-Control-Allow-Origin" "*"
-   "Access-Control-Allow-Methods" "POST, GET, OPTIONS, DELETE"
-   "Access-Control-Allow-Headers" "*"
-   "Access-Control-Expose-Headers" "*"})
-
-(defn wrap-cors [handler]
-  (fn [req]
-    (if (-> req :request-method (= :options))
-      {:status 200
-       :headers cors-headers
-       :body ""}
-      (-> req
-          handler
-          (update :headers merge cors-headers)))))
 
 (def route-data
   {:coercion   malli/coercion
@@ -46,7 +31,7 @@
                 coercion/coerce-response-middleware
                   ;; coercing request parameters
                 coercion/coerce-request-middleware
-                wrap-cors
+                cors/wrap-cors
                   ;; exception handling
                 exception/wrap-exception]})
 
@@ -70,7 +55,5 @@
 (derive :reitit.routes/api :reitit/routes)
 
 (defmethod ig/init-key :reitit.routes/api
-  [_ {:keys [base-path]
-      :or   {base-path ""}
-      :as   opts}]
-  (fn [] [base-path route-data (api-routes opts)]))
+  [_ opts]
+  (fn [] ["/api" route-data (api-routes opts)]))

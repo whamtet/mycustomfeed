@@ -5,7 +5,10 @@
     <link rel="stylesheet" href="http://localhost:3002/output.css">
 </head>
 <body>
-<div hx-get="http://localhost:3002/api/button" hx-trigger="load" />
+<div hx-get="http://localhost:3002/extension/login?count=0" hx-trigger="load" />
 <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+<script>
+    htmx.config.defaultSwapStyle = 'outerHTML';
+</script>
 </body>
 </html>
