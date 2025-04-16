@@ -14,7 +14,7 @@
    [customfeed.app.web.routes.extension]
    [customfeed.app.web.routes.ui]
    [kit.edge.db.sql.conman]
-   [kit.edge.db.sql.migratus])
+   [customfeed.app.migratus])
   (:gen-class))
 
 ;; log uncaught exceptions in threads

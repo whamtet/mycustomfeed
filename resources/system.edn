@@ -46,15 +46,17 @@
  {:routes #ig/ref :router/routes
   :env #ig/ref :system/env}
  :reitit.routes/ui {:base-path "",
-                    :env #ig/ref :system/env}
+                    :env #ig/ref :system/env
+                    :query-fn #ig/ref :db.sql/query-fn}
  :reitit.routes/extension
- {:env #ig/ref :system/env}
+ {:env #ig/ref :system/env
+  :query-fn #ig/ref :db.sql/query-fn}
  :db.sql/query-fn {:conn #ig/ref :db.sql/connection,
                    :options {},
                    :filename "sql/queries.sql"}
  :db.sql/migrations {:store :database,
                      :db {:datasource #ig/ref :db.sql/connection},
                      :migrate-on-init? true}
- :db.sql/connection #profile {:dev {:jdbc-url "jdbc:sqlite:app_dev.db"},
-                              :test {:jdbc-url "jdbc:sqlite:app_test.db"},
-                              :prod {:jdbc-url #env JDBC_URL}}}
+ :db.sql/connection #profile {:dev {:jdbc-url "jdbc:sqlite:custom_feed.db?foreign_keys=true"},
+                              :test {:jdbc-url "jdbc:sqlite:custom_feed.db?foreign_keys=true"},
+                              :prod {:jdbc-url "jdbc:sqlite:custom_feed.db?foreign_keys=true"}}}
