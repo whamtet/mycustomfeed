@@ -37,7 +37,7 @@
     [:meta {:property "og:type" :content "website"}]
     [:meta {:property "og:url" :content "https://customfeed.simpleui.io/"}]
     [:meta {:property "og:image" :content "https://customfeed.simpleui.io/logo.jpg"}]
-    [:link {:rel "icon" :href "/logo_dark.svg"}]
+    ;[:link {:rel "icon" :href "/logo_dark.svg"}]
     (for [sheet css]
       [:link {:rel "stylesheet" :href (resource-cache/cache-suffix sheet)}])]
    [:body

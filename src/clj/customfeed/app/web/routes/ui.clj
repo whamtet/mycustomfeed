@@ -1,5 +1,6 @@
 (ns customfeed.app.web.routes.ui
   (:require
+   [customfeed.app.web.middleware.cors :as cors]
    [customfeed.app.web.middleware.exception :as exception]
    [customfeed.app.web.middleware.formats :as formats]
    [customfeed.app.web.views.home :as home]
@@ -17,6 +18,7 @@
       parameters/parameters-middleware
       ;; encoding response body
       muuntaja/format-response-middleware
+      cors/wrap-cors
       ;; exception handling
       exception/wrap-exception]}))
 
