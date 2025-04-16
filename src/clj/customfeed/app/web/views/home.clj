@@ -12,23 +12,26 @@
     (update req :session login/login)
     req))
 
-(defcomponent ^{:endpoint true :req login-session} login [req]
+(defcomponent ^:endpoint login [req]
   (cond
     (simpleui/post? req)
-    {:session session
-     :body "logged in"}
-    id "logged in"
+    {:session (login/login session)
+     :body [:div "logged in"]}
+    id
+    {:session (login/login session)
+     :body [:div "logged in"]}
     :else
-    [:div {:hx-target "this"}
-     [:div.mt-6.flex.justify-center
-      [:div {:hx-post "login"}
-       (components/button (i18n "Log In"))]]]))
+    [:div {:hx-ext "zession"}
+     [:div {:hx-target "this"}
+      [:div.mt-6.flex.justify-center
+       [:div {:hx-post "login"}
+        (components/button (i18n "Log In"))]]]]))
 
 (defn extension [{:keys [query-fn]}]
   (simpleui/make-routes-simple
    (if prod?
      "https://mycustomfeed.simpleui.io/extension/"
-     "http://localhost:3002/extension/" #_"https://1089-202-241-169-123.ngrok-free.app/extension/")
+     #_"http://localhost:3002/extension/" "https://1089-202-241-169-123.ngrok-free.app/extension/")
    [query-fn]
    login))
 

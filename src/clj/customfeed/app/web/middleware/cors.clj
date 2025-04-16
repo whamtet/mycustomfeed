@@ -8,7 +8,6 @@
 
 (defn wrap-cors [handler]
   (fn [req]
-    (prn (:headers req))
     (if (-> req :request-method (= :options))
       {:status 200
        :headers cors-headers
