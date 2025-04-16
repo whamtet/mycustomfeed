@@ -12,7 +12,9 @@
     ;; Routes
    [customfeed.app.web.routes.api]
    [customfeed.app.web.routes.extension]
-   [customfeed.app.web.routes.ui])
+   [customfeed.app.web.routes.ui]
+   [kit.edge.db.sql.conman]
+   [kit.edge.db.sql.migratus])
   (:gen-class))
 
 ;; log uncaught exceptions in threads
