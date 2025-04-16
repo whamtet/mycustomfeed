@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "My Custom Feed",
-  "description": "Easily Follow Feeds and track comments on LinkedIn",
+  "description": "Easily follow feeds and track comments on LinkedIn",
   "version": "1.0",
   "permissions": ["sidePanel", "tabs"],
   "minimum_chrome_version": "116",
