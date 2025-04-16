@@ -37,5 +37,5 @@
 (derive :reitit.routes/extension :reitit/routes)
 
 (defmethod ig/init-key :reitit.routes/extension
-  [_ {:keys [query-fn] :as opts}]
-  ["/extension" (route-data opts) (home/extension)])
+  [_ opts]
+  ["/extension" (route-data opts) (home/extension opts)])

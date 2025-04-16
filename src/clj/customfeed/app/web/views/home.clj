@@ -27,8 +27,8 @@
          :hx-vals {:count (inc count)}}
    "Count " count])
 
-(defmacro extension []
-  `(simpleui/make-routes-simple
-    ~(if prod? "https://mycustomfeed.simpleui.io/extension/" "http://localhost:3002/extension/")
-    [~'query-fn]
-    login))
+(defn extension [{:keys [query-fn]}]
+  (simpleui/make-routes-simple
+   (if prod? "https://mycustomfeed.simpleui.io/extension/" "http://localhost:3002/extension/")
+   [query-fn]
+   login))
