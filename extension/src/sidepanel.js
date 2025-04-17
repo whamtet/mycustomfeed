@@ -3,10 +3,10 @@ import * as htmx from "./htmx.js";
 const BASE_URL = process.env.BASE_URL;
 
 htmx.config.defaultSwapStyle = 'outerHTML';
-
-// const frame = document.createElement('iframe');
-// frame.src = BASE_URL + '/';
-// document.body.appendChild(frame);
+// withCredentials requires more specific cors
+// however the extension doesn't specify an origin
+// so we have to use * cors, which rules out withCredentials
+// htmx.config.withCredentials = true;
 
 htmx.defineExtension('zession', {
     encodeParameters : function(xhr, parameters, elt) {
@@ -24,7 +24,6 @@ htmx.defineExtension('zession', {
         return text;
     },
 });
-//
 
 const container = document.getElementById("container");
 container.setAttribute('hx-post', BASE_URL + '/extension/login');
