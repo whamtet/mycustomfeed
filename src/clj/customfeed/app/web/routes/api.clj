@@ -1,6 +1,7 @@
 (ns customfeed.app.web.routes.api
   (:require
     [clojure.java.io :as io]
+    [customfeed.app.env :refer [dev?]]
     [customfeed.app.util :refer [defm-dev]]
     [customfeed.app.web.controllers.health :as health]
     [customfeed.app.web.middleware.cors :as cors]
@@ -50,7 +51,13 @@
        :headers {}
        :body (button)})]
    ["/health"
-    {:get health/healthcheck!}]])
+    {:get health/healthcheck!}]
+   (when dev?
+     ["/session"
+      (fn [req]
+        {:status 200
+         :headers {"content-type" "text/plain"}
+         :body (pr-str (:session req))})])])
 
 (derive :reitit.routes/api :reitit/routes)
 

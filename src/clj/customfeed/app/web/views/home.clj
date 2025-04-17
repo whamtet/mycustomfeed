@@ -5,20 +5,16 @@
     [customfeed.app.web.i18n :refer [i18n]]
     [customfeed.app.web.htmx :refer [page-htmx defcomponent]]
     [customfeed.app.web.views.components :as components]
+    [customfeed.app.web.views.extension-panel :as extension-panel]
     [simpleui.core :as simpleui]))
-
-(defn login-session [req]
-  (if (simpleui/post? req)
-    (update req :session login/login)
-    req))
 
 (defcomponent ^:endpoint login [req command]
   (cond
     (= "do" command)
     {:session (login/login session)
-     :body [:div#container "logged in"]}
-    id
-    [:div#container id]
+     :body (extension-panel/extension-panel req)}
+    user_id
+    (extension-panel/extension-panel req)
     :else
     [:div {:id "container" :hx-target "this"}
      [:div.mt-6.flex.justify-center

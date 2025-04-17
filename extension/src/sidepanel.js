@@ -1,6 +1,8 @@
 import * as htmx from "./htmx.js";
+import { POST } from "./client.js";
 
 const BASE_URL = process.env.BASE_URL;
+const DEV = process.env.DEV;
 
 htmx.config.defaultSwapStyle = 'outerHTML';
 // withCredentials requires more specific cors
@@ -32,6 +34,17 @@ htmx.trigger("#container", "click", {});
 
 const link = document.createElement('link');
 link.setAttribute('rel', 'stylesheet');
-link.setAttribute('href', BASE_URL + '/output.css');
+let output = BASE_URL + '/output.css';
+if (DEV) {
+    output += '?hash=' + Math.random();
+}
+link.setAttribute('href', output);
 
 document.head.appendChild(link);
+
+if (DEV) {
+    (async () => {
+        const response = await POST('/api/session');
+        console.log(await response.text());
+    })();
+}

@@ -5,11 +5,10 @@ var watcher = require('node-watch');
 const args = process.argv.slice(2);
 const watch = args.includes('--watch');
 
-const define = {};
-
-for (const k in process.env) {
-  define[`process.env.${k}`] = JSON.stringify(process.env[k]);
-}
+const define = {
+  'process.env.BASE_URL': watch ? "'http://localhost:3002'" : "'https://app.mycustomfeed.com'",
+  'process.env.DEV': String(watch),
+};
 
 const buildEntry = (entrypoint, outfile) => build({
   entryPoints: ['extension/' + entrypoint],

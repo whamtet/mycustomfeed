@@ -8,8 +8,8 @@
   "scripts": {
     "tailwind": "tailwindcss -m -i tailwind/input.css -o resources/public/output.css",
     "tailwind:watch": "tailwindcss -i tailwind/input.css -o resources/public/output.css --watch",
-    "extension": "BASE_URL=https://app.mycustomfeed.com node extension/build.js",
-    "extension:watch": "BASE_URL=http://localhost:3002 node extension/build.js --watch",
+    "extension": "node extension/build.js",
+    "extension:watch": "node extension/build.js --watch",
     "extension:tailwind": "tailwindcss -c tailwind-static.config.js -i tailwind/input.css -o extension/dist/output.css --watch"
   }
 }
