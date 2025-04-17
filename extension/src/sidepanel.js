@@ -1,3 +1,5 @@
+import * as htmx from "./htmx.js";
+
 const BASE_URL = process.env.BASE_URL;
 
 htmx.config.defaultSwapStyle = 'outerHTML';

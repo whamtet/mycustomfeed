@@ -18,8 +18,7 @@
     {:session (login/login session)
      :body [:div "logged in"]}
     id
-    {:session (login/login session)
-     :body [:div "logged in"]}
+    [:div "logged in"]
     :else
     [:div {:hx-ext "zession"}
      [:div {:hx-target "this"}
@@ -31,7 +30,7 @@
   (simpleui/make-routes-simple
    (if prod?
      "https://mycustomfeed.simpleui.io/extension/"
-     #_"http://localhost:3002/extension/" "https://1089-202-241-169-123.ngrok-free.app/extension/")
+     "http://localhost:3002/extension/")
    [query-fn]
    login))
 
