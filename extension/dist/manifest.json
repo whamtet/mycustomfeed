@@ -3,7 +3,7 @@
   "name": "My Custom Feed",
   "description": "Easily follow feeds and track comments on LinkedIn",
   "version": "1.0",
-  "permissions": ["sidePanel", "tabs"],
+  "permissions": ["sidePanel", "tabs", "storage"],
   "minimum_chrome_version": "116",
   "icons": {
     "16": "icon16.png",

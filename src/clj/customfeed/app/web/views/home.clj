@@ -41,4 +41,4 @@
    (fn [req]
      (page-htmx
       {:css ["/output.css"]}
-      (login req)))))
+      "fuck"))))
