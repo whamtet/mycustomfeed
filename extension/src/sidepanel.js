@@ -10,8 +10,29 @@ htmx.config.defaultSwapStyle = 'outerHTML';
 
 htmx.defineExtension('zession', {
     encodeParameters : function(xhr, parameters, elt) {
-        xhr.setRequestHeader('kookie', 'hi');
-    }
-});
+        const kookie = localStorage.getItem('kookie');
+        if (kookie) {
+            xhr.setRequestHeader('kookie', kookie);
+        }
+    },
+    transformResponse : function(text, xhr, elt) {
+        const kookie = xhr.getResponseHeader('kookie');
+        if (kookie) {
+            localStorage.setItem('kookie', kookie);
+        }
 
-htmx.ajax('GET', BASE_URL + '/extension/login?count=0', '#container')
+        return text;
+    },
+});
+//
+
+const container = document.getElementById("container");
+container.setAttribute('hx-post', BASE_URL + '/extension/login');
+htmx.process(container.parentElement);
+htmx.trigger("#container", "click", {});
+
+const link = document.createElement('link');
+link.setAttribute('rel', 'stylesheet');
+link.setAttribute('href', BASE_URL + '/output.css');
+
+document.head.appendChild(link);

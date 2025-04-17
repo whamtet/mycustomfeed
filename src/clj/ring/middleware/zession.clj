@@ -65,8 +65,7 @@ Ring comes with two stores included:
       (-> response
           (update :cookies merge cookie)
           (assoc-in [:headers "kookie"] (or new-session-key session-key)))
-      ;(assoc response :cookies (merge (response :cookies) cookie))
-      response)))
+      (assoc-in response [:headers "kookie"] ""))))
 
 (defn session-response
   "Updates session based on :session key in response. See: wrap-zession."

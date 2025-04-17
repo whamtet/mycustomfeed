@@ -12,19 +12,18 @@
     (update req :session login/login)
     req))
 
-(defcomponent ^:endpoint login [req]
+(defcomponent ^:endpoint login [req command]
   (cond
-    (simpleui/post? req)
+    (= "do" command)
     {:session (login/login session)
-     :body [:div "logged in"]}
+     :body [:div#container "logged in"]}
     id
-    [:div "logged in"]
+    [:div#container id]
     :else
-    [:div {:hx-ext "zession"}
-     [:div {:hx-target "this"}
-      [:div.mt-6.flex.justify-center
-       [:div {:hx-post "login"}
-        (components/button (i18n "Log In"))]]]]))
+    [:div {:id "container" :hx-target "this"}
+     [:div.mt-6.flex.justify-center
+      [:div {:hx-post "login:do"}
+       (components/button (i18n "Log In"))]]]))
 
 (defn extension [{:keys [query-fn]}]
   (simpleui/make-routes-simple
