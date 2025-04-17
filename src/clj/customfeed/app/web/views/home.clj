@@ -28,7 +28,7 @@
 (defn extension [{:keys [query-fn]}]
   (simpleui/make-routes-simple
    (if prod?
-     "https://mycustomfeed.simpleui.io/extension/"
+     "https://app.mycustomfeed.com/extension/"
      "http://localhost:3002/extension/")
    [query-fn]
    login))
