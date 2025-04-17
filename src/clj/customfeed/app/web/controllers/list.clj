@@ -2,6 +2,11 @@
   (:require
     [customfeed.app.web.controllers.common :as common]))
 
-(defn get-list [{:keys [query-fn session]}]
-  (:detail
-    (common/get-detail query-fn :get-list session)))
+(defn get-lists [{:keys [query-fn session]}]
+  (->
+   (common/get-detail query-fn :get-lists session)
+   :detail
+   (or {})))
+
+(defn update-lists [{:keys [query-fn session]} detail]
+  (common/update-detail query-fn :update-lists session detail))

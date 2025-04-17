@@ -5,17 +5,21 @@
     [customfeed.app.web.htmx :refer [defcomponent]]
     [customfeed.app.web.views.components :as components]))
 
-(defcomponent ^:endpoint header [req ^:prompt list-name]
-  (if top-level?
-    list-name
-    [:div.flex.items-center
-     [:h5.mr-2 (i18n "My Lists")]
-     [:div {:hx-post "header"
-            :hx-prompt (i18n "New list name?")}
-      (components/button "+")]
-     ]))
+(def header
+  [:div.flex.items-center
+   [:h5.mr-2 (i18n "My Lists")]
+   [:div {:hx-post "extension-panel"
+          :hx-prompt (i18n "New list name?")}
+    (components/button "+")]])
 
-(defcomponent extension-panel [req]
-  [:div.m-2 {:hx-target "this"}
-   (header req)
-   (pr-str (list/get-list req))])
+(defcomponent ^:endpoint extension-panel [req ^:prompt list-name]
+  (let [lists (list/get-lists req)
+        clash? (and top-level? (lists list-name))
+        new-list? (and top-level? (not clash?))
+        lists (if new-list? (assoc lists list-name []) lists)]
+    (when new-list?
+      (list/update-lists req lists))
+    [:div.m-2 {:hx-target "this"}
+     header
+     (when clash? (components/warning (i18n "List already created")))
+     (pr-str lists)]))
