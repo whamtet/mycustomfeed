@@ -11,8 +11,11 @@
 (defcomponent ^:endpoint login [req command]
   (cond
     (= "do" command)
-    {:session (login/login session)
-     :body (extension-panel/extension-panel req)}
+    (let [session (login/login session)]
+      {:session session
+       :body (-> req
+                 (assoc :session session)
+                 extension-panel/extension-panel)})
     user_id
     (extension-panel/extension-panel req)
     :else

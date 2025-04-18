@@ -4,8 +4,8 @@ export function GET(URL) {
   return fetch(BASE_URL + URL);
 }
 
-export function POST(url) {
-  return fetch(BASE_URL + url,
+export async function POST(url) {
+  const response = await fetch(BASE_URL + url,
       {
         method: 'POST',
         headers: {
@@ -13,4 +13,9 @@ export function POST(url) {
         }
       }
   );
+  const kookie = response.headers.get('kookie');
+  if (kookie) {
+      localStorage.setItem('kookie', kookie);
+  }
+  return response;
 }

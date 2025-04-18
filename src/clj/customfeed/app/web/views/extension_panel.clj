@@ -12,14 +12,19 @@
           :hx-prompt (i18n "New list name?")}
     (components/button "+")]])
 
+(defcomponent ^:endpoint list-selector [req list]
+  (let [lists (list/get-lists req)
+        list (or list (-> lists keys first))]
+    (if (empty? lists)
+      ""
+      [:div "todo"])))
+
 (defcomponent ^:endpoint extension-panel [req ^:prompt list-name]
   (let [lists (list/get-lists req)
-        clash? (and top-level? (lists list-name))
-        new-list? (and top-level? (not clash?))
-        lists (if new-list? (assoc lists list-name []) lists)]
-    (when new-list?
-      (list/update-lists req lists))
+        clash? (and top-level? (lists list-name))]
+    (when (and top-level? (not clash?))
+      (list/update-lists req (assoc lists list-name [])))
     [:div.m-2 {:hx-target "this"}
      header
      (when clash? (components/warning (i18n "List already created")))
-     (pr-str lists)]))
+     (list-selector req)]))
