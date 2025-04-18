@@ -56,7 +56,8 @@
     `(simpleui/defcomponent ~name ~args
       (let [{:keys [~'session ~'path-params ~'query-fn]} ~sym
             ~'params (merge ~'params ~'path-params)
-            {:keys [~'user_id]} ~'session]
+            {:keys [~'user_id]} ~'session
+            ~'delete? (simpleui/delete? ~sym)]
         ~@body))
     (throw (Exception. "req ill defined"))))
 
