@@ -31,7 +31,8 @@ htmx.trigger("#container", "click", {});
 
 const link = document.createElement('link');
 link.setAttribute('rel', 'stylesheet');
-link.setAttribute('href', BASE_URL + '/output.css?hash=' + OUTPUT_MD5);
+const hash = DEV ? Math.random() : OUTPUT_MD5;
+link.setAttribute('href', BASE_URL + '/output.css?hash=' + hash);
 document.head.appendChild(link);
 
 if (DEV) {
