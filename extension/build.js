@@ -1,26 +1,36 @@
 const { build } = require('esbuild');
 require('dotenv').config();
-var watcher = require('node-watch');
+const watcher = require('node-watch');
+const fs = require('fs');
+const md5 = require('md5');
 
 const args = process.argv.slice(2);
 const watch = args.includes('--watch');
 
 const define = {
-  'process.env.BASE_URL': watch ? "'http://localhost:3002'" : "'https://app.mycustomfeed.com'",
-  'process.env.DEV': String(watch),
+  'BASE_URL': watch ? "'http://localhost:3002'" : "'https://app.mycustomfeed.com'",
+  'DEV': String(watch),
 };
 
-const buildEntry = (entrypoint, outfile) => build({
+const buildEntry = (entrypoint, outfile, md5) => build({
   entryPoints: ['extension/' + entrypoint],
   outfile: 'extension/' + outfile,
   bundle: true,
   minify: !watch,
-  define
+  define: {
+    ...define,
+    'OUTPUT_MD5': `'${md5}'`
+  }
 });
 
+const calcMD5 = () => {
+  const output = new String(fs.readFileSync('./resources/public/output.css'));
+  return md5(output);
+}
+
 const buildOnce = () => {
-  buildEntry('src/main.js', 'dist/content-script.js');
-  buildEntry('src/sidepanel.js', 'dist/sidepanel.js');
+  buildEntry('src/main.js', 'dist/content-script.js', '');
+  buildEntry('src/sidepanel.js', 'dist/sidepanel.js', calcMD5());
 }
 
 buildOnce();

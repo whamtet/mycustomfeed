@@ -1,9 +1,6 @@
 import * as htmx from "./htmx.js";
 import { POST } from "./client.js";
 
-const BASE_URL = process.env.BASE_URL;
-const DEV = process.env.DEV;
-
 htmx.config.defaultSwapStyle = 'outerHTML';
 // withCredentials requires more specific cors
 // however the extension doesn't specify an origin
@@ -34,12 +31,7 @@ htmx.trigger("#container", "click", {});
 
 const link = document.createElement('link');
 link.setAttribute('rel', 'stylesheet');
-let output = BASE_URL + '/output.css';
-if (DEV) {
-    output += '?hash=' + Math.random();
-}
-link.setAttribute('href', output);
-
+link.setAttribute('href', BASE_URL + '/output.css?hash=' + OUTPUT_MD5);
 document.head.appendChild(link);
 
 if (DEV) {
