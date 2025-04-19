@@ -15,7 +15,7 @@
   "content_scripts": [
     {
       "js": [
-        "content-script.js"
+        "extension_cljs.js"
       ],
       "matches": [
         "https://www.linkedin.com/*"

@@ -29,7 +29,7 @@ const calcMD5 = () => {
 }
 
 const buildOnce = () => {
-  buildEntry('src/main.js', 'dist/content-script.js', '');
+  // buildEntry('src/main.js', 'dist/content-script.js', '');
   buildEntry('src/sidepanel.js', 'dist/sidepanel.js', calcMD5());
 }
 
