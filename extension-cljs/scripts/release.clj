@@ -6,7 +6,6 @@
   (b/build "src"
     {:main 'extension-cljs.core
      :output-to "../extension/dist/extension_cljs.js"
-     :output-dir "../extension/dist/out"
      :target :webworker
      :optimizations :whitespace})
   (println "... done. Elapsed" (/ (- (System/nanoTime) start) 1e9) "seconds"))
