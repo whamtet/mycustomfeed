@@ -10,7 +10,6 @@
     "tailwind": "tailwindcss -m -i tailwind/input.css -o resources/public/output.css",
     "tailwind:watch": "tailwindcss -i tailwind/input.css -o resources/public/output.css --watch",
     "extension": "node extension/build.js",
-    "extension:watch": "node extension/build.js --watch",
-    "extension:tailwind": "tailwindcss -c tailwind-static.config.js -i tailwind/input.css -o extension/dist/output.css --watch"
+    "extension:watch": "node extension/build.js --watch"
   }
 }

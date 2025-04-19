@@ -17,9 +17,6 @@
       "js": [
         "content-script.js"
       ],
-      "css": [
-        "output.css"
-      ],
       "matches": [
         "https://www.linkedin.com/*"
       ]
