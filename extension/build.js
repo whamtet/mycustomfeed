@@ -29,8 +29,8 @@ const calcMD5 = () => {
 }
 
 const buildOnce = () => {
-  // buildEntry('src/main.js', 'dist/content-script.js', '');
-  buildEntry('src/sidepanel.js', 'dist/sidepanel.js', calcMD5());
+  buildEntry('src/service-worker.js', 'dist/service-worker.js', '');
+  buildEntry('src/sidepanel/sidepanel.js', 'dist/sidepanel.js', calcMD5());
 }
 
 buildOnce();

@@ -1,3 +1,4 @@
+service-worker.js
 extension_cljs.js
 custom_feed.db
 sidepanel.js

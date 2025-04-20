@@ -1,5 +1,5 @@
 import * as htmx from "./htmx.js";
-import { POST } from "./client.js";
+import { POST } from "../client.js";
 
 htmx.config.defaultSwapStyle = 'outerHTML';
 // withCredentials requires more specific cors

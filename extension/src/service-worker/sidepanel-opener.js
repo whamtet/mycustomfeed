@@ -1,4 +1,3 @@
-
 // on message from content-script.js
 chrome.runtime.onMessage.addListener((message, sender) => {
     // The callback for runtime.onMessage must return falsy if we're not sending a response
