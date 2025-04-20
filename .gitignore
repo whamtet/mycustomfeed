@@ -1,8 +1,8 @@
-service-worker.js
+extension/dist/service-worker.js
 extension_cljs.js
 custom_feed.db
 sidepanel.js
-content-script.js
+extension/dist/content-script.js
 output.css
 kit.git-config.edn
 .DS_Store

@@ -1,14 +1,5 @@
 import './service-worker/sidepanel-opener';
-
-const urlToObj = s => {
-    const paramsRaw = s.split('?')[1];
-    const params = new URLSearchParams(paramsRaw);
-    const out = {};
-    for (const [key, value] of params) {
-        out[key] = value;
-    }
-    return out;
-}
+import { urlToObj } from './util.js'
 
 chrome.webRequest.onBeforeRequest.addListener(
     function(request) {
