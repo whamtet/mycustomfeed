@@ -19,3 +19,8 @@
     (.addEventListener div "click" click-side-panel-button)))
 
 (add-side-panel-button)
+
+(defn notify-load []
+  (js/chrome.runtime.sendMessage #js {:type "notify_load"}))
+
+(notify-load)

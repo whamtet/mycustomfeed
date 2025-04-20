@@ -7,3 +7,5 @@ export const urlToObj = s => {
     }
     return out;
 }
+
+export const nth = (l, i) => l[i < 0 ? i + l.length : i];
