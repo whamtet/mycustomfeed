@@ -7,6 +7,7 @@ const toSidePanel = {};
 
 chrome.runtime.onConnect.addListener((port) => port.onMessage.addListener(message => {
     // The callback for runtime.onMessage must return falsy if we're not sending a response
+    // now we are using runtime.onConnect
 
     // closing the sidePanel breaks the extension icon - don't do it!
     // you can reopen the sidePanel
@@ -15,7 +16,6 @@ chrome.runtime.onConnect.addListener((port) => port.onMessage.addListener(messag
     if (message.type === 'open_side_panel') {
         // This will open a tab-specific side panel only on the current tab.
         chrome.sidePanel.open({ tabId: port.sender.tab.id });
-        toTab[port.sender.tab.id] = msg => port.postMessage(msg);
     }
 
     if (message.type === 'notify_load') {
@@ -25,6 +25,8 @@ chrome.runtime.onConnect.addListener((port) => port.onMessage.addListener(messag
             const username = nth(url.split('/'), index);
             requestListener.addUser(username, documentId);
         }
+
+        toTab[port.sender.tab.id] = msg => port.postMessage(msg);
     }
 
     if (message.type === 'connect_tab') {
