@@ -43,5 +43,7 @@
       (list/update-lists req (assoc lists list-name [])))
     [:div.m-2 {:hx-target "this"}
      header
-     (when clash? (components/warning (i18n "List already created")))
+     (when clash?
+       [:div.my-3
+         (components/warning (i18n "List already created"))])
      (list-selector req)]))

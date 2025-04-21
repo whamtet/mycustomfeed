@@ -7,8 +7,10 @@
 
 (enable-console-print!)
 
+(def port (js/chrome.runtime.connect))
+
 (defn click-side-panel-button []
-  (js/chrome.runtime.sendMessage #js {:type "open_side_panel"}))
+  (.postMessage port #js {:type "open_side_panel"}))
 
 (defn add-side-panel-button []
   (p/let [response (GET "/api/button")
@@ -21,6 +23,6 @@
 (add-side-panel-button)
 
 (defn notify-load []
-  (js/chrome.runtime.sendMessage #js {:type "notify_load"}))
+  (.postMessage port #js {:type "notify_load"}))
 
 (notify-load)
