@@ -3,11 +3,23 @@
     [extension-cljs.client :refer [GET]]
     promesa.core)
   (:require-macros
-    [promesa.core :as p]))
+    [promesa.core :as p]
+    [extension-cljs.core :refer [defport]]))
 
 (enable-console-print!)
 
-(def port (js/chrome.runtime.connect))
+(declare post-message)
+(defport port
+  (fn [message]
+    (case (.-type message)
+          "to_tab"
+          (let [msg (.-msg message)]
+            (js/console.log "msg" msg)
+            (post-message #js {:greeting "hi back"})))))
+
+(defn post-message [msg]
+  (.postMessage port #js {:type "to_sidePanel"
+                          :msg msg}))
 
 (defn click-side-panel-button []
   (.postMessage port #js {:type "open_side_panel"}))

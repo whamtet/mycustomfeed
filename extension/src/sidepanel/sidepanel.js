@@ -1,4 +1,5 @@
 import * as htmx from "./htmx";
+import "./port";
 import { POST } from "../client";
 
 htmx.config.defaultSwapStyle = 'outerHTML';

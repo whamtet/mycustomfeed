@@ -5,7 +5,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
     if (url.host === HOST) {
         await chrome.sidePanel.setOptions({
             tabId,
-            path: 'sidepanel.html'
+            path: 'sidepanel.html?tabId=' + tabId,
         });
     }
 });
