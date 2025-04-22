@@ -18,10 +18,8 @@
             (to-sidePanel #js {:greeting "hi back"})))))
 
 (defn to-sidePanel [msg]
-  (try
-    (.postMessage port #js {:type "to_sidePanel"
-                            :msg msg})
-    (catch js/Error e)))
+  (.postMessage port #js {:type "to_sidePanel"
+                          :msg msg}))
 
 (defn click-side-panel-button []
   (.postMessage port #js {:type "open_side_panel"}))

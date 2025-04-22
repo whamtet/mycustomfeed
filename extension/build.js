@@ -30,7 +30,7 @@ const calcMD5 = () => {
 
 const buildOnce = () => {
   buildEntry('src/service-worker.js', 'dist/service-worker.js', '');
-  buildEntry('src/sidepanel/sidepanel.js', 'dist/sidepanel.js', calcMD5());
+  buildEntry('src/sidepanel.js', 'dist/sidepanel.js', calcMD5());
 }
 
 buildOnce();

@@ -1,6 +1,6 @@
-import * as htmx from "./htmx";
-import "./port";
-import { POST } from "../client";
+import * as htmx from "./sidepanel/htmx";
+import "./sidepanel/port";
+import { POST } from "./client";
 
 htmx.config.defaultSwapStyle = 'outerHTML';
 // withCredentials requires more specific cors
