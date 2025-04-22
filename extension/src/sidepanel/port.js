@@ -1,9 +1,8 @@
 const port = chrome.runtime.connect();
 const tabId = location.href.split('=')[1];
 
-port.onMessage.addListener(message => {
-    if (message.type === 'to_sidePanel') {
-        const {msg} = message;
+port.onMessage.addListener(({type, msg}) => {
+    if (type === 'to_sidePanel') {
         console.log('sidePanel got', msg);
     }
 });

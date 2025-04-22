@@ -8,18 +8,20 @@
 
 (enable-console-print!)
 
-(declare post-message)
+(declare to-sidePanel)
 (defport port
   (fn [message]
     (case (.-type message)
           "to_tab"
           (let [msg (.-msg message)]
             (js/console.log "msg" msg)
-            (post-message #js {:greeting "hi back"})))))
+            (to-sidePanel #js {:greeting "hi back"})))))
 
-(defn post-message [msg]
-  (.postMessage port #js {:type "to_sidePanel"
-                          :msg msg}))
+(defn to-sidePanel [msg]
+  (try
+    (.postMessage port #js {:type "to_sidePanel"
+                            :msg msg})
+    (catch js/Error e)))
 
 (defn click-side-panel-button []
   (.postMessage port #js {:type "open_side_panel"}))
@@ -36,5 +38,8 @@
 
 (defn notify-load []
   (.postMessage port #js {:type "notify_load"}))
-
 (notify-load)
+
+(defn heartbeat []
+  (to-sidePanel "heartbeat"))
+(js/setInterval heartbeat 4000)

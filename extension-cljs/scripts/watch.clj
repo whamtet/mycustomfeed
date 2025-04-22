@@ -1,5 +1,6 @@
 (require '[cljs.build.api :as b])
 (require '[clojure.string :as string])
+(require '[clojure.java.shell :refer [sh]])
 
 (defn map-lines [f s]
   (->> (.split s "\n")
@@ -19,4 +20,5 @@
    :output-to "../extension/dist/extension_cljs.js"
    :target :webworker
    :optimizations :simple
-   :output-wrapper wrapper})
+   :output-wrapper wrapper
+   :watch-fn #(println (sh "tput" "bel"))})
