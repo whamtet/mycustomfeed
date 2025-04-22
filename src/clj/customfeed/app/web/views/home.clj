@@ -9,20 +9,24 @@
     [simpleui.core :as simpleui]))
 
 (defcomponent ^:endpoint login [req command]
-  (cond
-    (= "do" command)
-    (let [session (login/login session)]
-      {:session session
-       :body (-> req
-                 (assoc :session session)
-                 extension-panel/extension-panel)})
-    user_id
-    (extension-panel/extension-panel req)
-    :else
-    [:div {:id "container" :hx-target "this"}
+  [:div#container.m-2
+   [:div#refresh-extension.hidden {:hx-post "login" :hx-target "#container"}]
+   [:div#show-warning.hidden {:hx-post "login:warning" :hx-target "#container"}]
+   (cond
+     (= "do" command)
+     (let [session (login/login session)
+           req (assoc :session session)]
+       {:session session
+        :body (extension-panel/extension-panel req)})
+     (= "warning" command)
+     [:div#return-to-linkedin
+       (i18n "Return to LinkedIn or close this panel")]
+     user_id
+     (extension-panel/extension-panel req)
+     :else
      [:div.mt-6.flex.justify-center
-      [:div {:hx-post "login:do"}
-       (components/button (i18n "Log In"))]]]))
+      [:div {:hx-post "login:do" :hx-target "#container"}
+       (components/button (i18n "Log In"))]])])
 
 (defn extension [{:keys [query-fn]}]
   (simpleui/make-routes-simple

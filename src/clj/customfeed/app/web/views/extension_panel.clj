@@ -41,7 +41,7 @@
         clash? (and top-level? (lists list-name))]
     (when (and top-level? (not clash?))
       (list/update-lists req (assoc lists list-name [])))
-    [:div.m-2 {:hx-target "this"}
+    [:div {:hx-target "this"}
      header
      (when clash?
        [:div.my-3

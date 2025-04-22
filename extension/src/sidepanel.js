@@ -39,6 +39,6 @@ document.head.appendChild(link);
 if (DEV) {
     (async () => {
         const response = await POST('/api/session');
-        console.log(await response.text());
+        console.log('session', await response.text());
     })();
 }

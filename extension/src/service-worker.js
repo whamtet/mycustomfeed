@@ -6,7 +6,7 @@ const toTab = {};
 const toSidePanel = {};
 
 chrome.runtime.onConnect.addListener((port) => {
-    port.onMessage.addListener(message => {
+    port.onMessage.addListener((message) => {
         // The callback for runtime.onMessage must return falsy if we're not sending a response
         // now we are using runtime.onConnect
 
@@ -38,6 +38,8 @@ chrome.runtime.onConnect.addListener((port) => {
             const f = toTab[message.tabId];
             if (f) {
                 f({msg: message.msg, type: message.type});
+            } else {
+                port.postMessage({msg: 'disconnected', type: 'to_sidePanel'});
             }
         }
         if (message.type === 'to_sidePanel') {

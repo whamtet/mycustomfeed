@@ -14,8 +14,9 @@
     (case (.-type message)
           "to_tab"
           (let [msg (.-msg message)]
-            (js/console.log "msg" msg)
-            (to-sidePanel #js {:greeting "hi back"})))))
+            (case msg
+                  "heartbeat" (to-sidePanel "heartbeat")
+                  nil)))))
 
 (defn to-sidePanel [msg]
   (.postMessage port #js {:type "to_sidePanel"
@@ -37,7 +38,3 @@
 (defn notify-load []
   (.postMessage port #js {:type "notify_load"}))
 (notify-load)
-
-(defn heartbeat []
-  (to-sidePanel "heartbeat"))
-(js/setInterval heartbeat 4000)
