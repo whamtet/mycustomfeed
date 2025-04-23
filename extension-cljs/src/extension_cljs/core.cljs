@@ -1,6 +1,7 @@
 (ns extension-cljs.core
   (:require
     [extension-cljs.client :refer [GET]]
+    [extension-cljs.scrape.linkedin :as linkedin]
     promesa.core)
   (:require-macros
     [promesa.core :as p]
