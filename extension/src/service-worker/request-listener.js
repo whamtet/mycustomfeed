@@ -4,15 +4,15 @@ const userProfileSubstrings = [
     'voyagerTrustDashVerificationEntryPointPages'
 ];
 
-const urlRegex = /fsd_profile%3A([a-zA-Z0-9_]+)/;
+const urlRegex = /fsd_profile%3A([a-zA-Z0-9_-]+)/;
 
 const documentToUrn = {};
-const urnToUsername = {};
 
 chrome.webRequest.onBeforeRequest.addListener(
     function(request) {
         userProfileSubstrings.forEach(profileSubstring => {
             if (request.url.includes(profileSubstring)) {
+                // console.log('request.url', request.url);
                 const regexMatch = request.url.match(urlRegex);
                 if (regexMatch) {
                     const profile = regexMatch[1];
@@ -27,10 +27,4 @@ chrome.webRequest.onBeforeRequest.addListener(
     {urls: ["<all_urls>"]}
 );
 
-export const addUser = (username, documentId) => {
-    const urn = documentToUrn[documentId];
-    if (urn) {
-        urnToUsername[urn] = username;
-        console.log(urnToUsername);
-    }
-}
+export const getUrn = documentId => documentToUrn[documentId];

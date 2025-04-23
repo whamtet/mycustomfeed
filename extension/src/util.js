@@ -12,3 +12,10 @@ export const nth = (l, i) => l[i < 0 ? i + l.length : i];
 
 export const $ = x => document.body.querySelector(x);
 export const $$ = x => document.body.querySelectorAll(x);
+
+export const enqueueKey = (m, k, v) => {
+    if (!m[k]) {
+        m[k] = [];
+    }
+    m[k].push(v);
+}

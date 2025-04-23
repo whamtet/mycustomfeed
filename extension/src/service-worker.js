@@ -1,11 +1,15 @@
 import './service-worker/sidepanel-opener';
 import * as requestListener from './service-worker/request-listener';
-import { nth } from './util';
+import * as util from './util';
 
 const toTab = {};
 const toSidePanel = {};
+const sidePanelQueue = {};
 
 chrome.runtime.onConnect.addListener((port) => {
+
+    const tabId = port.sender.tab?.id; // only defined when opening from content script
+
     port.onMessage.addListener((message) => {
         // The callback for runtime.onMessage must return falsy if we're not sending a response
         // now we are using runtime.onConnect
@@ -15,23 +19,19 @@ chrome.runtime.onConnect.addListener((port) => {
         // however getOptions will always return enabled: true regardless of whether the tab is open
         // AGGGHHHH!!!
         if (message.type === 'open_side_panel') {
+            toTab[tabId] = msg => port.postMessage(msg);
             // This will open a tab-specific side panel only on the current tab.
-            chrome.sidePanel.open({ tabId: port.sender.tab.id });
+            chrome.sidePanel.open({ tabId });
         }
 
-        if (message.type === 'notify_load') {
-            const {url, documentId} = port.sender;
-            if (url.startsWith('https://www.linkedin.com/in/')) {
-                // const index = url.endsWith('/') ? -2 : -1;
-                // const username = nth(url.split('/'), index);
-                // requestListener.addUser(username, documentId);
-            }
-
-            toTab[port.sender.tab.id] = msg => port.postMessage(msg);
-        }
-
-        if (message.type === 'connect_tab') {
+        if (message.type === 'connect_sidePanel') {
             toSidePanel[message.tabId] = msg => port.postMessage(msg);
+
+            const queue = sidePanelQueue[message.tabId];
+            if (queue) {
+                port.postMessage(queue[queue.length - 1]);
+                delete sidePanelQueue[message.tabId];
+            }
         }
 
         if (message.type === 'to_tab') {
@@ -43,18 +43,29 @@ chrome.runtime.onConnect.addListener((port) => {
             }
         }
         if (message.type === 'to_sidePanel') {
-            const f = toSidePanel[port.sender.tab.id];
+            // annotate with urn if necessary
+            const {msg, type} = message;
+            if (msg.linkedin) {
+                msg.urn = requestListener.getUrn(port.sender.documentId);
+            }
+            const toSend = {msg, type};
+
+            const f = toSidePanel[tabId];
             if (f) {
-                f({msg: message.msg, type: message.type});
+                f(toSend);
+            } else {
+                // enqueue it
+                util.enqueueKey(sidePanelQueue, tabId, toSend);
             }
         }
     });
     port.onDisconnect.addListener((port) => {
-        if (port.sender.origin == "https://www.linkedin.com") {
-            delete toTab[port.sender.tab.id];
+        if (tabId) {
+            delete toTab[tabId];
+            delete sidePanelQueue[tabId];
         } else {
-            const tabId = port.sender.url.split('=')[1];
-            delete toSidePanel[tabId];
+            const tabIdSidePanel = port.sender.url.split('=')[1];
+            delete toSidePanel[tabIdSidePanel];
         }
     })
 });

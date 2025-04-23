@@ -14,16 +14,17 @@ port.onMessage.addListener(({type, msg}) => {
             if (document.getElementById('return-to-linkedin')) {
                 $('#refresh-extension').click();
             }
-        }
-        if (msg === 'disconnected') {
+        } else if (msg === 'disconnected') {
             if (!document.getElementById('return-to-linkedin')) {
                 $('#show-warning').click();
             }
+        } else {
+            console.log('got', msg);
         }
     }
 });
 
-port.postMessage({type: "connect_tab", tabId});
+port.postMessage({type: "connect_sidePanel", tabId});
 const toTab = msg => port.postMessage({type: "to_tab", tabId, msg});
 
 setInterval(() => toTab('heartbeat'), 500);

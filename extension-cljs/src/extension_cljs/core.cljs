@@ -36,13 +36,16 @@
 
 (add-side-panel-button)
 
-(defn notify-load []
-  (.postMessage @port #js {:type "notify_load"}))
-(notify-load)
-
 (defn on-new-page
   ([f] (on-new-page f nil))
   ([f old-url]
    (let [new-url js/location.href]
      (when (not= old-url new-url) (f))
      (js/setTimeout #(on-new-page f new-url) 1000))))
+
+(on-new-page
+ (fn []
+   (p/let [initial-info (linkedin/initial-scrape)]
+     (when initial-info
+           (-> initial-info clj->js to-sidePanel)
+           (js/alert (pr-str initial-info))))))
