@@ -1,27 +1,24 @@
 import * as htmx from "./htmx";
 import { $ } from "../util";
 
-const port = chrome.runtime.connect();
+let port = chrome.runtime.connect();
 const tabId = location.href.split('=')[1];
 
-const onDisconnect = () => {
-    if (!document.getElementById('return-to-linkedin')) {
-        $('#show-warning').click();
-    }
-};
-const onHeartbeat = () => {
-    if (document.getElementById('return-to-linkedin')) {
-        $('#refresh-extension').click();
-    }
-}
+port.onDisconnect.addListener(() => {
+    port = chrome.runtime.connect();
+})
 
 port.onMessage.addListener(({type, msg}) => {
     if (type === 'to_sidePanel') {
         if (msg === 'heartbeat') {
-            onHeartbeat();
+            if (document.getElementById('return-to-linkedin')) {
+                $('#refresh-extension').click();
+            }
         }
         if (msg === 'disconnected') {
-            onDisconnect();
+            if (!document.getElementById('return-to-linkedin')) {
+                $('#show-warning').click();
+            }
         }
     }
 });

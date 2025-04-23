@@ -6,5 +6,6 @@
 
 (defmacro defport [port on-message]
   `(do
-    (def ~port (js/chrome.runtime.connect))
-    (-> ~port .-onMessage (.addListener ~on-message))))
+    (def ~port (atom (js/chrome.runtime.connect)))
+    (-> ~port deref .-onDisconnect (.addListener #(reset! ~port (js/chrome.runtime.connect))))
+    (-> ~port deref .-onMessage (.addListener ~on-message))))

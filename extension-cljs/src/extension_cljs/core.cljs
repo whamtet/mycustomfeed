@@ -19,11 +19,11 @@
                   nil)))))
 
 (defn to-sidePanel [msg]
-  (.postMessage port #js {:type "to_sidePanel"
+  (.postMessage @port #js {:type "to_sidePanel"
                           :msg msg}))
 
 (defn click-side-panel-button []
-  (.postMessage port #js {:type "open_side_panel"}))
+  (.postMessage @port #js {:type "open_side_panel"}))
 
 (defn add-side-panel-button []
   (p/let [response (GET "/api/button")
@@ -36,5 +36,5 @@
 (add-side-panel-button)
 
 (defn notify-load []
-  (.postMessage port #js {:type "notify_load"}))
+  (.postMessage @port #js {:type "notify_load"}))
 (notify-load)
