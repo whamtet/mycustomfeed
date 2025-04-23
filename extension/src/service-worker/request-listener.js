@@ -13,8 +13,13 @@ chrome.webRequest.onBeforeRequest.addListener(
     function(request) {
         userProfileSubstrings.forEach(profileSubstring => {
             if (request.url.includes(profileSubstring)) {
-                const profile = request.url.match(urlRegex)[1];
-                documentToUrn[request.documentId] = profile;
+                const regexMatch = request.url.match(urlRegex);
+                if (regexMatch) {
+                    const profile = regexMatch[1];
+                    documentToUrn[request.documentId] = profile;
+                } else {
+                    console.error('unmatch', request.url);
+                }
             }
         });
         return {cancel: false};

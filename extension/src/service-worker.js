@@ -22,9 +22,9 @@ chrome.runtime.onConnect.addListener((port) => {
         if (message.type === 'notify_load') {
             const {url, documentId} = port.sender;
             if (url.startsWith('https://www.linkedin.com/in/')) {
-                const index = url.endsWith('/') ? -2 : -1;
-                const username = nth(url.split('/'), index);
-                requestListener.addUser(username, documentId);
+                // const index = url.endsWith('/') ? -2 : -1;
+                // const username = nth(url.split('/'), index);
+                // requestListener.addUser(username, documentId);
             }
 
             toTab[port.sender.tab.id] = msg => port.postMessage(msg);
