@@ -46,6 +46,4 @@
 (on-new-page
  (fn []
    (p/let [initial-info (linkedin/initial-scrape)]
-     (when initial-info
-           (-> initial-info clj->js to-sidePanel)
-           (js/alert (pr-str initial-info))))))
+     (some-> initial-info clj->js to-sidePanel))))

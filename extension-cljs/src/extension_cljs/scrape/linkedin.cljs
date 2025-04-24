@@ -25,12 +25,14 @@
 
 (defn initial-scrape []
   (when-let [linkedin (-> js/location.pathname (.split "/") (nth 2))]
-    (p/let [_ (p/delay 3000)
-            bio-href (str js/location.pathname "overlay/about-this-profile/")
-            names (some->
-                   (parse/xpath1 ["//a" ["@href" bio-href]])
-                   .-innerText
-                   .trim)]
+    (p/let [bio-href (str js/location.pathname "overlay/about-this-profile/")
+            names (parse/poll
+                   "getting names"
+                   #(some->
+                     (parse/xpath1 ["//a" ["@href" bio-href]])
+                     .-innerText
+                     .trim)
+                   5)]
       (when names
             {:linkedin linkedin
              :linkedinName names

@@ -91,14 +91,17 @@
        (doto (js/MutationObserver. on-change)
          (.observe js/document #js {:subtree true :childList true}))))))
 
-(defn poll [msg f]
-  (println msg)
-  (p/loop [result (f)]
-    (or
-     result
-     (p/do
-       (util/delay 200)
-       (p/recur (f))))))
+(defn poll
+  ([msg f] (poll msg f -1))
+  ([msg f timeout]
+   (println msg)
+   (p/loop [repeats (* timeout 4)]
+     (when (not= 0 repeats)
+           (p/let [result (f)]
+             (or result
+                 (p/do
+                  (util/delay 250)
+                  (p/recur (dec repeats)))))))))
 
 (defn val
   ([selector]
