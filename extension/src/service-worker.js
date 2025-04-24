@@ -19,9 +19,12 @@ chrome.runtime.onConnect.addListener((port) => {
         // however getOptions will always return enabled: true regardless of whether the tab is open
         // AGGGHHHH!!!
         if (message.type === 'open_side_panel') {
-            toTab[tabId] = msg => port.postMessage(msg);
             // This will open a tab-specific side panel only on the current tab.
             chrome.sidePanel.open({ tabId });
+        }
+
+        if (message.type === 'open_tab') {
+            toTab[tabId] = msg => port.postMessage(msg);
         }
 
         if (message.type === 'connect_sidePanel') {

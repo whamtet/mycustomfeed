@@ -25,6 +25,7 @@
 
 (defn click-side-panel-button []
   (.postMessage @port #js {:type "open_side_panel"}))
+(.postMessage @port #js {:type "open_tab"})
 
 (defn add-side-panel-button []
   (p/let [response (GET "/api/button")
