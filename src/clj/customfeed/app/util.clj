@@ -1,7 +1,10 @@
 (ns customfeed.app.util
     (:require
+      [clojure.data.json :as json]
       [clojure.string :as string]
       [customfeed.app.env :refer [dev?]]))
+
+(def write-str json/write-str)
 
 (defn map-vals [f m]
   (->> m vals (map f) (zipmap (keys m))))

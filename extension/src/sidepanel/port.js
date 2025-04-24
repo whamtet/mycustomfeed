@@ -26,14 +26,8 @@ const newPort = () => {
                         if (DEV) {
                             addLink();
                         }
-                        htmx.ajax(
-                            'POST',
-                            BASE_URL + '/extension/profile',
-                            {
-                                target: '#profile',
-                                values: {info: JSON.stringify(msg)},
-                            }
-                        )
+                        $('#profile-info').value = JSON.stringify(msg);
+                        $('#profile-refresh').click();
                     });
             }
         }
