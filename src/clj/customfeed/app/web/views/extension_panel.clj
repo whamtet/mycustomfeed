@@ -36,6 +36,14 @@
                :hx-confirm (format (i18n "Delete list %s?") list-name)}
          (icons/trash 5)]]])))
 
+(defcomponent ^:endpoint profile [req ^:json info]
+  (let [{:keys [linkedin
+                linkedinName
+                img
+                urn]} info]
+    [:div#profile
+     (pr-str info)]))
+
 (defcomponent ^:endpoint extension-panel [req ^:prompt list-name]
   (let [lists (list/get-lists req)
         clash? (and top-level? (lists list-name))]
@@ -46,4 +54,5 @@
      (when clash?
        [:div.my-3
          (components/warning (i18n "List already created"))])
-     (list-selector req)]))
+     (list-selector req)
+     (profile req)]))

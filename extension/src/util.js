@@ -19,3 +19,11 @@ export const enqueueKey = (m, k, v) => {
     }
     m[k].push(v);
 }
+
+export const afterId = (id, f) => {
+    if (document.getElementById(id)) {
+        f();
+    } else {
+        setTimeout(() => afterId(id, f), 100);
+    }
+};

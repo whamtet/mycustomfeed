@@ -1,5 +1,5 @@
 import * as htmx from "./htmx";
-import { $ } from "../util";
+import { $, afterId } from "../util";
 
 let port = chrome.runtime.connect();
 const tabId = location.href.split('=')[1];
@@ -19,7 +19,16 @@ port.onMessage.addListener(({type, msg}) => {
                 $('#show-warning').click();
             }
         } else {
-            console.log('got', msg);
+            afterId(
+                'profile',
+                () => htmx.ajax(
+                    'POST',
+                    BASE_URL + '/extension/profile',
+                    {
+                        target: '#profile',
+                        values: {info: JSON.stringify(msg)},
+                    }
+                ));
         }
     }
 });
