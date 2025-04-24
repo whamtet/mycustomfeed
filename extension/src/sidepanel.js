@@ -1,6 +1,7 @@
 import * as htmx from "./sidepanel/htmx";
 import "./sidepanel/port";
 import { POST } from "./client";
+import { addLink } from "./dom";
 
 htmx.config.defaultSwapStyle = 'outerHTML';
 // withCredentials requires more specific cors
@@ -25,16 +26,11 @@ htmx.defineExtension('zession', {
     },
 });
 
+addLink();
 const container = document.getElementById("container");
 container.setAttribute('hx-post', BASE_URL + '/extension/login');
 htmx.process(container.parentElement);
 htmx.trigger("#container", "click", {});
-
-const link = document.createElement('link');
-link.setAttribute('rel', 'stylesheet');
-const hash = DEV ? Math.random() : OUTPUT_MD5;
-link.setAttribute('href', BASE_URL + '/output.css?hash=' + hash);
-document.head.appendChild(link);
 
 if (DEV) {
     (async () => {
