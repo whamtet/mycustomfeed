@@ -23,8 +23,7 @@
 (defn make-port []
   (doto (js/chrome.runtime.connect)
         (-> .-onDisconnect (.addListener on-disconnect))
-        (-> .-onMessage (.addListener on-message))
-        (.postMessage #js {:type "open_tab"})))
+        (-> .-onMessage (.addListener on-message))))
 
 (on-disconnect nil)
 

@@ -38,7 +38,6 @@ const newPort = () => {
             }
         }
     });
-    port.postMessage({type: "connect_sidePanel", tabId});
 }
 newPort();
 

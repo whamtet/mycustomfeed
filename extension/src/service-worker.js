@@ -9,6 +9,19 @@ const sidePanelQueue = {};
 chrome.runtime.onConnect.addListener((port) => {
 
     const tabId = port.sender.tab?.id; // only defined when opening from content script
+    const tabIdSidePanel = port.sender.url.split('=')[1];
+
+    if (tabId) {
+        toTab[tabId] = msg => port.postMessage(msg);
+    } else {
+        toSidePanel[tabIdSidePanel] = msg => port.postMessage(msg);
+
+        const queue = sidePanelQueue[tabIdSidePanel];
+        if (queue) {
+            port.postMessage(queue[queue.length - 1]);
+            delete sidePanelQueue[tabIdSidePanel];
+        }
+    }
 
     port.onMessage.addListener((message) => {
         // The callback for runtime.onMessage must return falsy if we're not sending a response
@@ -21,20 +34,6 @@ chrome.runtime.onConnect.addListener((port) => {
         if (message.type === 'open_side_panel') {
             // This will open a tab-specific side panel only on the current tab.
             chrome.sidePanel.open({ tabId });
-        }
-
-        if (message.type === 'open_tab') {
-            toTab[tabId] = msg => port.postMessage(msg);
-        }
-
-        if (message.type === 'connect_sidePanel') {
-            toSidePanel[message.tabId] = msg => port.postMessage(msg);
-
-            const queue = sidePanelQueue[message.tabId];
-            if (queue) {
-                port.postMessage(queue[queue.length - 1]);
-                delete sidePanelQueue[message.tabId];
-            }
         }
 
         if (message.type === 'to_tab') {
@@ -67,7 +66,6 @@ chrome.runtime.onConnect.addListener((port) => {
             delete toTab[tabId];
             delete sidePanelQueue[tabId];
         } else {
-            const tabIdSidePanel = port.sender.url.split('=')[1];
             delete toSidePanel[tabIdSidePanel];
         }
     })
