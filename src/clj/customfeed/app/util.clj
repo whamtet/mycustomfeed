@@ -49,7 +49,13 @@
 (defn map-last [f s]
   (let [c (dec (count s))]
     (map-indexed #(f (= %1 c) %2) s)))
+(defn map-first-last [f s]
+  (let [c (dec (count s))]
+    (map-indexed #(f (zero? %1) (= %1 c) %2) s)))
 
 (defmacro defcss
   "Define tailwind classes for the tailwind parser (noop)"
   [& forms])
+
+(defmacro forcat [v x]
+  `(apply concat (for ~v ~x)))

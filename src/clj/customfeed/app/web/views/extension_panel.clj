@@ -67,6 +67,11 @@
     (when (and top-level? (not clash?))
       (list/add-list req list-name))
     [:div {:hx-target "this"}
+     [:div.mb-2
+      (components/tabs
+       nil
+       {:value "home" :disp (i18n "Home")}
+       {:value "view" :disp (i18n "Display")})]
      header
      (when clash?
        [:div.my-3
